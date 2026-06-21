@@ -350,7 +350,7 @@ function AstroHopper(){
       // Level Up
       const nextLvlScore=getLevelStats(s.level).nextLevel;
       if(s.score>=nextLvlScore&&s.level<20){
-        s.level++;s.levelUpTimer=120;sfx("levelUp");
+        s.level++;if(s.level===4&&typeof window.ReactNativeWebView!=='undefined'){window.ReactNativeWebView.postMessage('showAd');}s.levelUpTimer=120;sfx("levelUp");
         const prevPlatCount=getLevelStats(s.level-1).platCount;
         const curPlatCount=getLevelStats(s.level).platCount;
         const lvlMsg=curPlatCount<prevPlatCount?"🌟 Level "+s.level+"! Weniger Böden!":"🌟 Level "+s.level+"!";
@@ -458,8 +458,8 @@ function AstroHopper(){
             }break;}}}
       if(s.shield>0)s.shield--;
 
-      if(p.dead){p.deathTimer++;p.vy+=0.5;p.y+=p.vy;if(p.deathTimer>90){setFinalScore(s.score);setFinalLevel(s.level);setBest(prev=>Math.max(prev,s.score));setScreen("over");return;}}
-      if(p.y>H+80&&!p.dead){sfx("die");audioRef.current?.stopMusic();setFinalScore(s.score);setFinalLevel(s.level);setBest(prev=>Math.max(prev,s.score));setScreen("over");return;}
+      if(p.dead){p.deathTimer++;p.vy+=0.5;p.y+=p.vy;if(p.deathTimer>90){setFinalScore(s.score);setFinalLevel(s.level);setBest(prev=>Math.max(prev,s.score));if(typeof window.ReactNativeWebView!=='undefined'){window.ReactNativeWebView.postMessage('showAd');}setScreen("over");return;}}
+      if(p.y>H+80&&!p.dead){sfx("die");audioRef.current?.stopMusic();setFinalScore(s.score);setFinalLevel(s.level);setBest(prev=>Math.max(prev,s.score));if(typeof window.ReactNativeWebView!=='undefined'){window.ReactNativeWebView.postMessage('showAd');}setScreen("over");return;}
 
       s.enemies=s.enemies.filter(e=>e.y-s.cameraY<H+80&&e.y-s.cameraY>-220);
       s.powerups=s.powerups.filter(pu=>pu.y-s.cameraY<H+60);
